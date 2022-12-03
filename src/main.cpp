@@ -51,6 +51,7 @@ bool sendTelemetry(unsigned int totalSeen, unsigned int totalFpSeen, int unsigne
             && TSL2561::SendDiscovery()
             && SensirionSGP30::SendDiscovery()
             && HX711::SendDiscovery()
+            && WS::SendDiscovery()
 #endif
         ) {
             sentDiscovery = true;
@@ -242,6 +243,7 @@ void setupNetwork() {
     TSL2561::SerialReport();
     SensirionSGP30::SerialReport();
     HX711::SerialReport();
+    WS::SerialReport();
 
 #endif
     Serial.print("Query:        ");
@@ -511,6 +513,7 @@ void setup() {
     TSL2561::Setup();
     SensirionSGP30::Setup();
     HX711::Setup();
+    WS::Setup();
 #endif
     xTaskCreatePinnedToCore(scanTask, "scanTask", SCAN_TASK_STACK_SIZE, nullptr, 1, &scanTaskHandle, CONFIG_BT_NIMBLE_PINNED_TO_CORE);
     xTaskCreatePinnedToCore(reportTask, "reportTask", REPORT_TASK_STACK_SIZE, nullptr, 1, &reportTaskHandle, REPORT_PINNED_TO_CORE);
@@ -541,5 +544,6 @@ void loop() {
     TSL2561::Loop();
     SensirionSGP30::Loop();
     HX711::Loop();
+    WS::Loop();
 #endif
 }
